@@ -9,12 +9,12 @@ node_build:
       args:
       - mvn
       - package
-      volumeMounts:
+      volume_mounts:
       - name: repo
-        mountPath: /root/.m2
+        mount_path: /root/.m2
     volumes:
     - name: repo
-      hostPath:
+      host_path:
         path: ${home}/.m2
     output:
     - classifier: target
