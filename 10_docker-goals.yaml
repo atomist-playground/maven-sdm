@@ -12,9 +12,9 @@ docker_build:
       image: gcr.io/kaniko-project/executor
       args: 
       - --context=dir:///atm/home
-      - --destination=${push.repo.owner}/${push.repo.name}:${push.after.sha}
+      - --destination=atomist/${push.repo.name}:${push.after.sha}
       - --dockerfile=Dockerfile
-      - --no-push
-      - --single-snapshot
+      - --cache=true
+      - --cache-repo=atomist/layer-cache
     input: 
     - cache
