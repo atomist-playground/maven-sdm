@@ -1,6 +1,6 @@
 node_build:  
   test: 
-  - hasFile: package.json
+  - has_file: package.json
      
   goals:   
   - containers:  
