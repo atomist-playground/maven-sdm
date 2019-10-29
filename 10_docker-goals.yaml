@@ -16,5 +16,12 @@ docker_build:
       - --dockerfile=Dockerfile
       - --cache=true
       - --cache-repo=atomist/layer-cache
+      volume_mounts:
+      - name: creds
+        mount_path: /kaniko/.docker/config.json
+    volumes:
+    - name: creds
+      host_path:
+        path: ${home}/.docker/config.json
     input: 
     - cache
