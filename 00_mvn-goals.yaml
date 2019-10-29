@@ -1,0 +1,23 @@
+mvn_build:  
+  test: 
+  - has_file: pom.xml
+      
+  goals:   
+  - containers:  
+    - name: mvn-test   
+      image: maven:3-jdk-8-slim
+      args:
+      - mvn
+      - package
+      volume_mounts:
+      - name: repo
+        mount_path: /root/.m2
+    volumes:
+    - name: repo
+      host_path:
+        path: ${home}/.m2
+    output:
+    - classifier: cache
+      pattern:
+        directory: target
+        
