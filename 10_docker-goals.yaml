@@ -52,8 +52,13 @@ docker_build:
       - atomist/${push.repo.name}:${push.after.sha}
       volume_mounts:
       - name: docker_sock
-        mount_path: /var/run/docker.sock   
+        mount_path: /var/run/docker.sock
+      - name: creds
+        mount_path: /root/.docker/config.json
     volumes:
     - name: docker_sock
       host_path:
         path: /var/run/docker.sock
+    - name: creds
+      host_path:
+        path: ${home}/.docker/config.json
