@@ -7,21 +7,28 @@ docker_build:
   - node_build
          
   goals:   
-  - containers:   
-    - name: kaniko
-      image: gcr.io/kaniko-project/executor
-      args: 
-      - --context=dir:///atm/home
-      - --destination=atomist/${push.repo.name}:${push.after.sha}
-      - --dockerfile=Dockerfile
-      - --cache=true
-      - --cache-repo=atomist/layer-cache
-      volume_mounts:
-      - name: creds
-        mount_path: /kaniko/.docker/config.json
-    volumes:
-    - name: creds
-      host_path:
-        path: ${home}/.docker/config.json
+#  - containers:   
+#    - name: kaniko
+#      image: gcr.io/kaniko-project/executor
+#      args: 
+#      - --context=dir:///atm/home
+#      - --destination=atomist/${push.repo.name}:${push.after.sha}
+#      - --dockerfile=Dockerfile
+#      - --cache=true
+#      - --cache-repo=atomist/layer-cache
+#      volume_mounts:
+#      - name: creds
+#        mount_path: /kaniko/.docker/config.json
+#    volumes:
+#    - name: creds
+#      host_path:
+#        path: ${home}/.docker/config.json
+    - containers:
+      - name: docker
+        image: docker
+        commands: /bin/bash
+        args:  
+        - -c
+        - "docker build . -f Dockerfile -t atomist/${push.repo.name}:${push.after.sha} && docker push atomist/${push.repo.name}:${push.after.sha}"
     input: 
     - cache
