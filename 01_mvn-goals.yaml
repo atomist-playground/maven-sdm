@@ -4,7 +4,7 @@ mvn_build:
       
   goals:   
   - containers:  
-    - name: mvn-test   
+    - name: mvn test   
       image: maven:3-jdk-8-slim
       args:
       - mvn
