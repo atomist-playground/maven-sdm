@@ -23,12 +23,12 @@ docker_build:
 #    - name: creds
 #      host_path:
 #        path: ${home}/.docker/config.json
-    - containers:
-      - name: docker
-        image: docker
-        commands: /bin/bash
-        args:  
-        - -c
-        - "docker build . -f Dockerfile -t atomist/${push.repo.name}:${push.after.sha} && docker push atomist/${push.repo.name}:${push.after.sha}"
+  - containers:
+    - name: docker
+      image: docker
+      commands: /bin/bash
+      args:  
+      - -c
+      - "docker build . -f Dockerfile -t atomist/${push.repo.name}:${push.after.sha} && docker push atomist/${push.repo.name}:${push.after.sha}"
     input: 
     - cache
