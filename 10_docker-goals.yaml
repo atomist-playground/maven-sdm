@@ -26,9 +26,6 @@ docker_build:
   - containers:
     - name: docker
       image: docker
-      commands: /bin/bash
-      args:  
-      - -c
       - "docker build . -f Dockerfile -t atomist/${push.repo.name}:${push.after.sha} && docker push atomist/${push.repo.name}:${push.after.sha}"
       volume_mounts:
       - name: docker_sock
