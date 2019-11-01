@@ -24,7 +24,7 @@ docker_build:
 #      host_path:
 #        path: ${home}/.docker/config.json
   - containers:
-    - name: docker build
+    - name: docker-build
       image: docker
       args: 
       - docker
@@ -44,7 +44,7 @@ docker_build:
       host_path:
         path: /var/run/docker.sock
   - containers:
-    - name: docker push
+    - name: docker-push
       image: docker
       args: 
       - docker
