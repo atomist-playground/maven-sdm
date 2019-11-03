@@ -26,14 +26,10 @@ docker_build:
   - containers:
     - name: docker-build
       image: docker
-      args: 
-      - docker
-      - build
-      - .
-      - -f
-      - Dockerfile
-      - -t
-      - atomist/${push.repo.name}:${push.after.sha}
+      args:
+      - /bin/sh
+      - -c
+      - "docker build . -f Dockerfile -t atomist/${push.repo.name}:${push.after.sha} && docker push atomist/${push.repo.name}:${push.after.sha}"
       volume_mounts:
       - name: sock
         mount_path: /var/run/docker.sock
@@ -41,25 +37,6 @@ docker_build:
         mount_path: /root/.docker/config.json        
     input: 
     - cache
-    volumes:
-    - name: sock
-      host_path:
-        path: /var/run/docker.sock
-    - name: creds
-      host_path:
-        path: ${home}/.docker/config.json
-  - containers:
-    - name: docker-push
-      image: docker
-      args: 
-      - docker
-      - push
-      - atomist/${push.repo.name}:${push.after.sha}
-      volume_mounts:
-      - name: sock
-        mount_path: /var/run/docker.sock
-      - name: creds
-        mount_path: /root/.docker/config.json
     volumes:
     - name: sock
       host_path:
