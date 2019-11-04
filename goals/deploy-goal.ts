@@ -10,7 +10,7 @@ export const deploy = () => goal(
         await gi.addressChannels(
             slackSuccessMessage(
                 "Deployment",
-                `Deployed docker image\n${codeLine((gi as any).parameters.image)}`,
+                `Deployed Docker image\n${codeLine((gi as any).parameters.image)}`,
             ),
         );
     },
