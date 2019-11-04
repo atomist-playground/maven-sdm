@@ -2,11 +2,13 @@ import {
     goal,
     slackSuccessMessage,
 } from "@atomist/sdm";
+import { GoalMaker } from "@atomist/sdm-core";
 import { codeLine } from "@atomist/slack-messages";
 
-export const deploy = () => goal(
+export const deploy: GoalMaker = () => goal(
     { displayName: "Deploy" },
     async gi => {
+        gi.progressLog.wr
         await gi.addressChannels(
             slackSuccessMessage(
                 "Deployment",
