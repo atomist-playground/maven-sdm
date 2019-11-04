@@ -47,7 +47,3 @@ docker_build:
     - name: creds
       host_path:
         path: ${home}/.docker/config.json
-
-message_docker:
-  test: dockerTest
-  goals: dockerMessage
