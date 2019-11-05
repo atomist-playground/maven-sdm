@@ -10,10 +10,7 @@ export deploy = () -> sdm.goal(
             """Deployed Docker image\n#{slack_messages.codeLine(gi.parameters.image)}"""))
         gi.progressLog.write("atm:phase=deployed")
     ,
-    {
-        plan: (pli) -> ({
-            parameters: {
+        plan: (pli) ->
+            parameters:
                 image: pli.facts.image,
-            },
-        }),
-    });
+)

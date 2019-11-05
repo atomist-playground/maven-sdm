@@ -6,9 +6,7 @@ export HasImage = () -> sdm.goalTest(
         if g.state == sdm.SdmGoalState.success and !!g.data
             image = JSON.parse(g.data).image
             if !!image
-                pli.facts = {
-                    image,
-                };
+                pli.facts =  { image }
                 return true
         return false
     )
