@@ -9,6 +9,6 @@ export cfg = {
             enabled: true,
             path: path.join(os.homedir(), ".atomist", "cache", "container"),
             store: new sdm_core.CompressingGoalCache,
-        },
-    },
-};
+        }
+    }
+}
