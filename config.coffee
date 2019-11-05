@@ -1,14 +1,14 @@
-const sdm_core = require("@atomist/sdm-core");
-const os = require("os");
-const path = require("path");
+sdm_core = require("@atomist/sdm-core")
+os = require("os")
+path = require("path")
 
-exports.cfg = {
+export cfg = {
     name: "@atomist/demo-sdm",
     sdm: {
         cache: {
             enabled: true,
             path: path.join(os.homedir(), ".atomist", "cache", "container"),
-            store: new sdm_core.CompressingGoalCache(),
+            store: new sdm_core.CompressingGoalCache,
         },
     },
 };
