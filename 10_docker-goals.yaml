@@ -30,14 +30,25 @@ docker_build:
       - /bin/sh
       - -c
       - >-
-        mkdir $HOME/.docker &&
-        cp $ATOMIST_INPUT_DIR/docker.config.json $HOME/.docker/config.json &&
         docker build . -f Dockerfile -t atomist/${push.repo.name}:${push.after.sha} &&
         docker push atomist/${push.repo.name}:${push.after.sha} &&
         echo '{ "SdmGoal": { "push": { "after": { "images" :[{ "imageName": "atomist/${push.repo.name}:${push.after.sha}" }] } } } }' > $ATOMIST_RESULT
       volume_mounts:
       - name: sock
         mount_path: /var/run/docker.sock
+      secrets:
+        env:
+        - name: GITHUB_TOKEN
+          value:
+            provider:
+              type: scm 
+        file_mounts:
+        - mount_path: /root/.docker/config.json
+          value:
+            provider:
+              type: docker
+              names:
+              - atomist
     input:
     - cache
     volumes:
