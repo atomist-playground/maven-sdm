@@ -30,20 +30,17 @@ docker_build:
       - /bin/sh
       - -c
       - >-
-        docker build . -f Dockerfile -t atomist/${push.repo.name}:${push.after.sha} && 
+        mkdir $HOME/.docker &&
+        cp $ATOMIST_INPUT/docker.config.json $HOME/.docker/config.json &&
+        docker build . -f Dockerfile -t atomist/${push.repo.name}:${push.after.sha} &&
         docker push atomist/${push.repo.name}:${push.after.sha} &&
-        echo '{ "data": { "image": "atomist/${push.repo.name}:${push.after.sha}" } }' > $ATOMIST_RESULT
+        echo '{ "SdmGoal": { "push": { "after": { "images" :[{ "imageName": "test" }] } } } }' > $ATOMIST_RESULT
       volume_mounts:
       - name: sock
         mount_path: /var/run/docker.sock
-      - name: creds
-        mount_path: /root/.docker/config.json        
-    input: 
+    input:
     - cache
     volumes:
     - name: sock
       host_path:
         path: /var/run/docker.sock
-    - name: creds
-      host_path:
-        path: ${home}/.docker/config.json
