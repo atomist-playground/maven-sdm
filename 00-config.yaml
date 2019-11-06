@@ -1,0 +1,5 @@
+configuration:
+  name: "@atomist/demo-sdm"
+  sdm:
+    cache:
+      enabled: true

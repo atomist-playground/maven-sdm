@@ -1,6 +1,8 @@
 docker_build:    
   test: 
-  - has_file: Dockerfile  
+  - has_file: Dockerfile
+  - is_repo: ^atomist-playground\/berlin-.*$
+  - is_branch: ^master$
     
   depends_on: 
   - mvn_build
@@ -30,7 +32,9 @@ docker_build:
       - /bin/sh
       - -c
       - >-
+        echo "atm:phase=docker build" &&
         docker build . -f Dockerfile -t atomist/${push.repo.name}:${push.after.sha} &&
+        echo "atm:phase=docker push" &&
         docker push atomist/${push.repo.name}:${push.after.sha} &&
         echo '{ "SdmGoal": { "push": { "after": { "images" :[{ "imageName": "atomist/${push.repo.name}:${push.after.sha}" }] } } } }' > $ATOMIST_RESULT
       volume_mounts:
@@ -38,10 +42,13 @@ docker_build:
         mount_path: /var/run/docker.sock
       secrets:
         env:
-        - name: GITHUB_TOKEN
+        - name: TEST
           value:
-            provider:
-              type: scm 
+            encrypted: >-
+              XJKe4+jmdAFkuZB3DrJdlTqAsUGQaaLXRbANhP2IhcyU3A6IRHBOsYIx69t22p2Xrru2z+qog/G7ItVoBdt2v0lyyjKF9d+TUsm3/58pdaCe
+              t2NWSvX8ZKDSPb0OmUxSYl0JMxw/VtBsSl6fum3AL5lf/sYRZHUtIly9G6ptdsrKg9DKASwd1hWqxQvNgEVroWCaoZ8gbfDyMVlfVwtpxPod
+              7ur3HfGOY7apa6UM2v88nfmzZx1jSDiGzRgUz9FFELozZ+Omru02BfmS1ymqr+saf6DegKCSZXnmzfneA+XFrpgLOpmQF0XSbB9ThLTky3hK
+              AC6sy3rBCjYjJhnjcQ==
         file_mounts:
         - mount_path: /root/.docker/config.json
           value:
@@ -55,3 +62,5 @@ docker_build:
     - name: sock
       host_path:
         path: /var/run/docker.sock
+    approval: true
+    retry: true
