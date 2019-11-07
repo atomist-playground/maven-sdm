@@ -4,3 +4,22 @@ configuration:
     cache:
       enabled: true
       path: /cache
+
+---
+
+immaterial:
+
+  test:
+  - is_material_change:
+    files:
+    - pom.xml
+    - package.json
+    extensions:
+    - ts
+    - js
+    - java
+    - html
+    patterns:
+    - '**/Dockerfile'
+
+  goals: immaterial
