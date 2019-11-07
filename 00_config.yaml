@@ -11,7 +11,7 @@ immaterial:
 
   test:
   - not:
-    - is_material_change:
+      is_material_change:
         files:
         - pom.xml
         - package.json
