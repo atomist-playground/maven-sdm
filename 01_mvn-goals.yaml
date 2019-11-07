@@ -20,4 +20,19 @@ mvn_build:
     - classifier: cache
       pattern:
         directory: target
-        
+    secrets:
+      env:
+      - name: TEST
+        value:
+          encrypted: >-
+            XJKe4+jmdAFkuZB3DrJdlTqAsUGQaaLXRbANhP2IhcyU3A6IRHBOsYIx69t22p2Xrru2z+qog/G7ItVoBdt2v0lyyjKF9d+TUsm3/58pdaCe
+            t2NWSvX8ZKDSPb0OmUxSYl0JMxw/VtBsSl6fum3AL5lf/sYRZHUtIly9G6ptdsrKg9DKASwd1hWqxQvNgEVroWCaoZ8gbfDyMVlfVwtpxPod
+            7ur3HfGOY7apa6UM2v88nfmzZx1jSDiGzRgUz9FFELozZ+Omru02BfmS1ymqr+saf6DegKCSZXnmzfneA+XFrpgLOpmQF0XSbB9ThLTky3hK
+            AC6sy3rBCjYjJhnjcQ==
+      file_mounts:
+        - mount_path: /root/.docker/config.json
+          value:
+            provider:
+              type: docker
+              names:
+                - atomist
