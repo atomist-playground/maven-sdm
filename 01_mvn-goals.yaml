@@ -9,13 +9,13 @@ mvn_build:
       args:
       - mvn
       - package
-      volume_mounts:
-      - name: repo
-        mount_path: /root/.m2
-    volumes:
-    - name: repo
-      host_path:
-        path: /data/.m2
+      #volume_mounts:
+      #- name: repo
+      #  mount_path: /root/.m2
+    #volumes:
+    #- name: repo
+    #  host_path:
+    #    path: /data/.m2
     output:
     - classifier: cache
       pattern:
