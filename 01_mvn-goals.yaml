@@ -21,3 +21,45 @@ mvn_build:
       pattern:
         directory: target
         
+---
+lein_build:
+  test:
+    - has_file: atomist.sh
+
+  goals:
+    - containers:
+      - name: leiningen
+        image: atomistclj
+        args:
+        - "/bin/bash"
+        - "-c"
+        - "/atm/home/atomist.sh"
+        volume_mounts:
+        - name: repo
+          mount_path: /root/.m2
+      - name: elasticsearch
+        image: docker.elastic.co/elasticsearch/elasticsearch:6.8.2
+        env:
+        - name: discovery.type
+          value: single-node
+        - name: xpack.monitoring.enabled
+          value: false
+        - name: xpack.ml.enabled
+          value: false
+        - name: ELASTIC_PASSWORD
+          value: MagicWord
+      - name: neo4j
+        image: whostolebenfrog/neo4j-graphql:3.5.9.2
+        env:
+        - name: NEO4J_dbms_memory_heap_initial__size
+          value: 1024M
+        - name: NEO4J_dbms_memory_heap_max__size
+          value: 1024M
+      volumes:
+      - name: repo
+        host_path:
+          path: ${home}/.m2
+      output:
+      - classifier: cache
+        pattern:
+          directory: target

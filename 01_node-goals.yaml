@@ -15,10 +15,8 @@ node_build:
       - sh
       - -c
       - npm ci && npm test
-      docker_options:
-      - '--link=mongo:mongo'
     - name: mongo
-      image: mongo:latest
+      image: mongo:3.6
     output:
     - classifier: cache
       pattern:
