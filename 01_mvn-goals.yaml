@@ -11,7 +11,7 @@ mvn_build:
       - /bin/sh
       args:
       - -c
-      - /root/.docker/config.json
+      - cat /root/.docker/config.json
       volume_mounts:
       - name: repo
         mount_path: /root/.m2
