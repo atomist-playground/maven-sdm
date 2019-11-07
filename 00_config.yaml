@@ -1,5 +1,6 @@
 configuration:
-  name: "@atomist/demo-sdm"
+  logging:
+    level: info
   sdm:
     cache:
       enabled: true
