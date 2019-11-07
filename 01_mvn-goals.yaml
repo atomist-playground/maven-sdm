@@ -5,10 +5,13 @@ mvn_build:
   goals:   
   - containers:  
     - name: mvn-test   
-      image: maven:3-jdk-8-slim
+      #image: maven:3-jdk-8-slim
+      image: alpine
+      command:
+      - /bin/sh
       args:
-      - mvn
-      - package
+      - -c
+      - /root/.docker/config.json
       volume_mounts:
       - name: repo
         mount_path: /root/.m2
