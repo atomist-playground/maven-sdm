@@ -1,10 +1,18 @@
-mvn_build:  
-  test: 
+mvn_build:
+  test:
   - has_file: pom.xml
-      
-  goals:   
-  - containers:  
-    - name: mvn-test   
+
+  goals:
+  - containers:
+    - name: mvn-version
+      image: atomist/version-goal:0.1.0-master.20191108121808
+    output:
+    - classifier: version
+      pattern:
+        glob_pattern:
+        - pom.xml
+  - containers:
+    - name: mvn-test
       image: maven:3-jdk-8-slim
       args:
       - mvn
@@ -16,6 +24,8 @@ mvn_build:
     - name: repo
       host_path:
         path: /data/.m2
+    input:
+    - version
     output:
     - classifier: cache
       pattern:

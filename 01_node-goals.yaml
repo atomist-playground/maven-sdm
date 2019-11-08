@@ -2,12 +2,20 @@ node_build:
   test: 
   - has_file: package.json
      
-  goals:   
-  - containers:  
-    - name: npm-test   
-      image: node:8-slim 
-      env: 
-      - name: NODE_ENV 
+  goals:
+  - containers:
+    - name: npm-version
+      image: atomist/version-goal:0.1.0-master.20191108121808
+    output:
+    - classifier: version
+      pattern:
+        glob_pattern:
+        - package.json
+  - containers:
+    - name: npm-test
+      image: node:8-slim
+      env:
+      - name: NODE_ENV
         value: development
       - name: BLUEBIRD_WARNINGS
         value: '0'
@@ -20,8 +28,10 @@ node_build:
     - name: mongo
       image: mongo:3.6
       test:
-      - is_repo: '^atomist-playground\/berlin-.*$'
-    output:
-    - classifier: cache
-      pattern:
-        directory: node_modules
+      - is_repo: '^atomist-playground\/hackathon-starter$'
+  input:
+  - version
+  output:
+  - classifier: cache
+    pattern:
+      directory: node_modules
