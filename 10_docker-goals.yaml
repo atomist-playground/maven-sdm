@@ -33,10 +33,10 @@ docker_build:
       - -c
       - >-
         echo "atm:phase=docker build" &&
-        docker build . -f Dockerfile -t atomist/${push.repo.name}:${push.after.sha} &&
+        docker build . -f Dockerfile -t atomist/${push.repo.name}:${push.after.version} &&
         echo "atm:phase=docker push" &&
-        docker push atomist/${push.repo.name}:${push.after.sha} &&
-        echo '{ "SdmGoal": { "push": { "after": { "images" :[{ "imageName": "atomist/${push.repo.name}:${push.after.sha}" }] } } } }' > $ATOMIST_RESULT
+        docker push atomist/${push.repo.name}:${push.after.version} &&
+        echo '{ "SdmGoal": { "push": { "after": { "images" :[{ "imageName": "atomist/${push.repo.name}:${push.after.version}" }] } } } }' > $ATOMIST_RESULT
       volume_mounts:
       - name: sock
         mount_path: /var/run/docker.sock
