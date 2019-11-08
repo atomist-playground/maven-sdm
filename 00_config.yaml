@@ -1,10 +1,6 @@
 configuration:
   logging:
     level: info
-  ws:
-    termination:
-      graceful: true
-      gracePeriod: 600000
   sdm:
     cache:
       enabled: true
