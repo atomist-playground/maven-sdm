@@ -19,6 +19,8 @@ node_build:
       - npm ci && npm test
     - name: mongo
       image: mongo:3.6
+      test:
+      - is_repo: '^atomist-playground\/berlin-.*$'
     output:
     - classifier: cache
       pattern:
