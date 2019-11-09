@@ -1,7 +1,6 @@
 docker_build:    
   test: 
   - has_file: Dockerfile
-  # - is_repo: ^atomist-playground\/berlin-.*$
   - is_branch: ^master$
     
   depends_on: 

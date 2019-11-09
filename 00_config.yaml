@@ -5,6 +5,8 @@ configuration:
     cache:
       enabled: true
       path: /cache
+  env:
+    version_goal_image: 'atomist/version-goal:0.1.0-master.20191108121808'
 
 ---
 
