@@ -5,7 +5,7 @@ mvn_build:
   goals:
   - containers:
     - name: mvn-version
-      image: atomist/version-goal:0.1.0-master.20191108121808
+      image: ${env.version.image}
     output:
     - classifier: version
       pattern:

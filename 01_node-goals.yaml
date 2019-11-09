@@ -5,7 +5,7 @@ node_build:
   goals:
   - containers:
     - name: npm-version
-      image: atomist/version-goal:0.1.0-master.20191108121808
+      image: ${env.version.image}
     output:
     - classifier: version
       pattern:
@@ -28,7 +28,9 @@ node_build:
     - name: mongo
       image: mongo:3.6
       test:
-      - is_repo: '^atomist-playground\/hackathon-starter$'
+      - has_file_containing:
+          glob_pattern: package.json
+          content: mongoose|connect-mongo
   input:
   - version
   output:

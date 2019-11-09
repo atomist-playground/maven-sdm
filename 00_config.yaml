@@ -5,6 +5,9 @@ configuration:
     cache:
       enabled: true
       path: /cache
+  env:
+    version:
+      image: 'atomist/version-goal:0.1.0-master.20191108121808'
 
 ---
 
@@ -21,7 +24,7 @@ immaterial:
         - js
         - java
         - html
-        patterns:
+        glob_patterns:
         - '**/Dockerfile'
 
   goals: lock
