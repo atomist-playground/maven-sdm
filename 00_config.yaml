@@ -4,9 +4,15 @@ configuration:
   sdm:
     cache:
       enabled: true
+      #path: /tmp/cache
       path: /cache
+    goal:
+      timeout: 1200000
+      docker:
+        registry: atomistplayground
+        provider: atomist
   env:
-    version_goal_image: 'atomist/version-goal:0.1.0-master.20191108121808'
+    version_goal_image: 'git://atomist/version-goal@bfed672'
 
 ---
 
