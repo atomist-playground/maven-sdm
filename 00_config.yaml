@@ -12,7 +12,7 @@ configuration:
         registry: atomistplayground
         provider: atomist
   env:
-    version_goal_image: 'git://atomist/version-goal@bfed672'
+    version_goal_image: 'git://atomist/version-goal@a8c0ea2'
 
 ---
 
