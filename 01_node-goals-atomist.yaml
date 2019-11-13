@@ -4,7 +4,7 @@ configuration:
   sdm:
     cache:
       enabled: true
-      path: /cache
+      path: /tmp/cache
     goal:
       timeout: 1200000
       docker:
