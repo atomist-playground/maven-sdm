@@ -4,35 +4,35 @@ configuration:
   sdm:
     cache:
       enabled: true
-      path: /tmp/cache
+      path: /cache
     goal:
       timeout: 1200000
       docker:
         registry: atomistplayground
         provider: atomist
-  env:
-    # Configure goal Docker images here
-    images:
-    - &version_image atomist/version-goal:0.1.0-master.20191112221212
-    - &node_image node:lts
-    - &docker_image docker:19.03.4
 
-    # Set up some common secrets to be used by goals
-    secrets:
-      npmjs: &secret_npmjs
-        mount_path: /root/.npmrc
-        value:
-          provider:
-            type: npm
-            names:
-              - npmjs
-      docker: &secret_docker
-        mount_path: /root/.docker/config.json
-        value:
-          provider:
-            type: docker
-            names:
-              - atomist
+  # Configure goal Docker images here
+  images:
+  - &version_image atomist/version-goal:0.1.0-master.20191112221212
+  - &node_image node:lts
+  - &docker_image docker:19.03.4
+
+  # Set up some common secrets to be used by goals
+  secrets:
+    npmjs: &secret_npmjs
+      mount_path: /root/.npmrc
+      value:
+        provider:
+          type: npm
+          names:
+            - npmjs
+    docker: &secret_docker
+      mount_path: /root/.docker/config.json
+      value:
+        provider:
+          type: docker
+          names:
+            - atomist
 
 immaterial:
   test:
@@ -59,7 +59,7 @@ node_build:
       pattern:
         glob_pattern:
         - package.json
-
+ 
   - containers:
     - name: npm test
       image: *node_image
