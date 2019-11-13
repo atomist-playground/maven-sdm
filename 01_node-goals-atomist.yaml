@@ -1,0 +1,134 @@
+configuration:
+  logging:
+    level: info
+  sdm:
+    cache:
+      enabled: true
+      path: /tmp/cache
+    goal:
+      timeout: 1200000
+      docker:
+        registry: atomistplayground
+        provider: atomist
+  env:
+    # version_image: git://atomist/version-goal@e73eb1d
+    version_image: atomist/version-goal:0.1.0-master.20191112221212
+    node_image: node:lts
+    docker_image: docker:19.03.4
+
+---
+
+immaterial:
+  test:
+    - not:
+        is_material_change:
+          files:
+            - package.json
+            - Dockerfile
+          extensions:
+            - ts
+
+  goals: lock
+
+---
+
+node_build:
+  test: 
+  - has_file: package.json
+     
+  goals:
+  - containers:
+    - name: npm version
+      image: ${env.version_image}
+    output:
+    - classifier: version
+      pattern:
+        glob_pattern:
+        - package.json
+
+  - containers:
+    - name: npm test
+      image: ${env.node_image}
+      env:
+      - name: NODE_ENV
+        value: development
+      - name: BLUEBIRD_WARNINGS
+        value: '0'
+      args:
+      - sh
+      - -c
+      - npm ci && npm run compile --if-present && npm run test --if-present
+    input:
+    - version
+    output:
+    - classifier: compile-ts
+      pattern:
+        glob_pattern:
+        - "*.{d.ts,js}{,.map}"
+        - "!(node_modules)/**/*.{d.ts,js}{,.map}"
+        - "lib/typings/types.ts"
+        - "git-info.json"
+    retry: true
+
+  - containers:
+    - name: npm publish
+      image: ${env.node_image}
+      args:
+      - sh
+      - -c
+      - npm publish --tag branch-${branch}
+      secrets:
+        file_mounts:
+        - mount_path: /root/.npmrc
+          value:
+            provider:
+              type: npm
+              names:
+              - npmjs
+    input:
+    - version
+    - compile-ts
+    retry: true
+
+---
+
+docker_build:
+  test:
+    - has_file: package.json
+    - has_file: Dockerfile
+
+  depends_on:
+    - node_build
+
+  goals:
+  - containers:
+    - name: docker build
+      image: ${env.docker_image}
+      args:
+      - /bin/sh
+      - -c
+      - >-
+        echo "atm:phase=docker build" &&
+        docker build . -f Dockerfile -t atomist/${push.repo.name}:${push.after.version} &&
+        echo "atm:phase=docker push" &&
+        docker push atomist/${push.repo.name}:${push.after.version} &&
+        echo '{ "SdmGoal": { "push": { "after": { "images" :[{ "imageName": "atomist/${push.repo.name}:${push.after.version}" }] } } } }' > $ATOMIST_RESULT
+      volume_mounts:
+      - name: sock
+        mount_path: /var/run/docker.sock
+      secrets:
+        file_mounts:
+        - mount_path: /root/.docker/config.json
+          value:
+            provider:
+              type: docker
+              names:
+              - atomist
+    input:
+    - version
+    - compile-ts
+    volumes:
+    - name: sock
+      host_path:
+        path: /var/run/docker.sock
+    retry: true
