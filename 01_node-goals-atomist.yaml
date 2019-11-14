@@ -1,6 +1,6 @@
 configuration:
   logging:
-    level: debug
+    level: info
   sdm:
     cache:
       enabled: true
