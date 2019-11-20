@@ -11,12 +11,6 @@ configuration:
         registry: atomistplayground
         provider: atomist
 
-  # Configure goal Docker images here
-  images:
-  - &version_image atomist/version-goal:0.1.0-master.20191112221212
-  - &node_image node:lts
-  - &docker_image docker:19.03.4
-
   # Set up some common secrets to be used by goals
   secrets:
     npmjs: &secret_npmjs
@@ -47,19 +41,17 @@ immaterial:
   goals: lock
 
 node_build:
-  test: 
+  test:
   - has_file: package.json
-     
+
   goals:
   - atomist/version-goal@master
-  - atomist/npm-goal@master
-    name: npm-test
-  - atomist/npm-goal@master
-    name: npm-publish
-    - constainers:
+  - atomist/npm-goal/npm-test@master
+  - atomist/npm-goal/npm-publish@master:
+      containers:
       - secrets:
-        file_mounts:
-        - <<: *secret_npmjs
+          file_mounts:
+          - <<: *secret_npmjs
   - tag
 
 docker_build:
@@ -71,27 +63,11 @@ docker_build:
     - node_build
 
   goals:
-  - containers:
-    - name: docker build
-      image: *docker_image
-      args:
-      - sh
-      - -c
-      - >-
-        docker build . -f Dockerfile -t atomist/${push.repo.name}:${push.after.version} &&
-        docker push atomist/${push.repo.name}:${push.after.version} &&
-        echo '{ "SdmGoal": { "push": { "after": { "images" :[{ "imageName": "atomist/${push.repo.name}:${push.after.version}" }] } } } }' > $ATOMIST_RESULT
-      volume_mounts:
-      - name: sock
-        mount_path: /var/run/docker.sock
-      secrets:
-        file_mounts:
-        - <<: *secret_docker
-    input:
-    - version
-    - compile-ts
-    volumes:
-    - name: sock
-      host_path:
-        path: /var/run/docker.sock
-    retry: true
+  - atomist/docker-goal/docker-build@master:
+      containers:
+      - secrets:
+          file_mounts:
+          - <<: *secret_docker
+      input:
+      - version
+      - npm-test
