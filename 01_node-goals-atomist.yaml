@@ -51,54 +51,15 @@ node_build:
   - has_file: package.json
      
   goals:
-  - containers:
-    - name: npm version
-      image: *version_image
-    output:
-    - classifier: version
-      pattern:
-        glob_pattern:
-        - package.json
- 
-  - containers:
-    - name: npm test
-      image: *node_image
-      env:
-      - name: NODE_ENV
-        value: development
-      - name: BLUEBIRD_WARNINGS
-        value: '0'
-      args:
-      - sh
-      - -c
-      - npm ci && npm run compile --if-present && npm run test --if-present
-    input:
-    - version
-    output:
-    - classifier: compile-ts
-      pattern:
-        glob_pattern:
-        - "*.{d.ts,js}{,.map}"
-        - "!(node_modules)/**/*.{d.ts,js}{,.map}"
-        - "lib/typings/types.ts"
-        - "git-info.json"
-    retry: true
-
-  - containers:
-    - name: npm publish
-      image: *node_image
-      args:
-      - sh
-      - -c
-      - npm publish --tag branch-${branch}
-      secrets:
+  - atomist/version-goal@master
+  - atomist/npm-goal@master
+    name: npm-test
+  - atomist/npm-goal@master
+    name: npm-publish
+    - constainers:
+      - secrets:
         file_mounts:
         - <<: *secret_npmjs
-    input:
-    - version
-    - compile-ts
-    retry: true
-
   - tag
 
 docker_build:
