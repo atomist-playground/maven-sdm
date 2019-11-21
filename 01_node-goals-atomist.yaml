@@ -27,7 +27,9 @@ node_build:
   goals:
   - atomist/version-goal@master
   - atomist/npm-goal/npm-test@master
-  - atomist/npm-goal/npm-publish@master
+  - atomist/npm-goal/npm-publish@master:
+      parameters:
+        access: public
   - tag
 
 docker_build:
@@ -39,7 +41,10 @@ docker_build:
   - node_build
 
   goals:
-  - atomist/docker-goal/docker-build@master:
+  - atomist/docker-goal/docker-build-push@master:
+      parameters:
+        dockerfile: Dockerfile
+        registry: atomist
       input:
       - version
       - npm-test
