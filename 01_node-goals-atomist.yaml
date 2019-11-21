@@ -7,26 +7,6 @@ configuration:
       path: /tmp/cache
     goal:
       timeout: 1200000
-      docker:
-        registry: atomistplayground
-        provider: atomist
-
-  # Set up some common secrets to be used by goals
-  secrets:
-    npmjs: &secret_npmjs
-      mount_path: /root/.npmrc
-      value:
-        provider:
-          type: npm
-          names:
-            - npmjs
-    docker: &secret_docker
-      mount_path: /root/.docker/config.json
-      value:
-        provider:
-          type: docker
-          names:
-            - atomist
 
 immaterial:
   test:
@@ -47,27 +27,19 @@ node_build:
   goals:
   - atomist/version-goal@master
   - atomist/npm-goal/npm-test@master
-  - atomist/npm-goal/npm-publish@master:
-      containers:
-      - secrets:
-          file_mounts:
-          - <<: *secret_npmjs
+  - atomist/npm-goal/npm-publish@master
   - tag
 
 docker_build:
   test:
-    - has_file: package.json
-    - has_file: Dockerfile
+  - has_file: package.json
+  - has_file: Dockerfile
 
   depends_on:
-    - node_build
+  - node_build
 
   goals:
   - atomist/docker-goal/docker-build@master:
-      containers:
-      - secrets:
-          file_mounts:
-          - <<: *secret_docker
       input:
       - version
       - npm-test
