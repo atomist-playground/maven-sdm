@@ -13,21 +13,19 @@ immaterial:
   - not:
       is_material_change:
         files:
-          - package.json
-          - Dockerfile
+        - package.json
+        - Dockerfile
         extensions:
-          - ts
-
+        - ts
   goals: lock
 
 node_build:
   test:
   - has_file: package.json
-
   goals:
-  - atomist/version-goal@master
-  - atomist/npm-goal/npm-test@master
-  - atomist/npm-goal/npm-publish@master:
+  - atomist/version-goal@0.0.1
+  - atomist/npm-goal/npm-test@0.0.1
+  - atomist/npm-goal/npm-publish@0.0.1:
       parameters:
         access: public
   - tag
@@ -36,14 +34,11 @@ docker_build:
   test:
   - has_file: package.json
   - has_file: Dockerfile
-
   depends_on:
   - node_build
-
   goals:
-  - atomist/docker-goal/docker-build-push@master:
+  - atomist/docker-goal/docker-build-push@0.0.1:
       parameters:
-        dockerfile: Dockerfile
         registry: atomist
       input:
       - version
