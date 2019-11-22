@@ -23,9 +23,9 @@ node_build:
   test:
   - has_file: package.json
   goals:
-  - atomist/version-goal@0.0.1
-  - atomist/npm-goal/npm-test@0.0.1
-  - atomist/npm-goal/npm-publish@0.0.1:
+  - atomist/version-goal@a03a4cf
+  - atomist/npm-goal/test@bea07cd
+  - atomist/npm-goal/publish@bea07cd:
       parameters:
         access: public
   - tag
@@ -37,7 +37,7 @@ docker_build:
   depends_on:
   - node_build
   goals:
-  - atomist/docker-goal/docker-build-push@0.0.1:
+  - atomist/docker-goal/build-push@7dd51f4:
       parameters:
         registry: atomist
       input:
