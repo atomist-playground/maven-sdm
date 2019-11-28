@@ -30,7 +30,7 @@ node_build:
         access: public
   - containers:
     - name: git tag
-      image: atomist/sdm-base:0.3.0
+      image: ubuntu:latest
       args:
       - /bin/sh
       - -c
