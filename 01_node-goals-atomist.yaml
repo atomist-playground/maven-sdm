@@ -30,13 +30,13 @@ node_build:
         access: public
   - containers:
     - name: git tag
-      image: alpine
+      image: atomist/sdm-base:0.3.0
       args:
       - /bin/sh
       - -c
       - >-
-        git config --global user.email "bot@atomist.com" &&
-        git config --global user.name "Atomist Bot" &&
+        git config --global user.email 'bot@atomist.com' &&
+        git config --global user.name 'Atomist Bot' &&
         git tag -m '${push.after.message}' ${push.after.version} &&
         git push origin ${push.after.version}
 
