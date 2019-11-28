@@ -56,10 +56,10 @@ docker_build:
       image: gcr.io/kaniko-project/executor
       args:
       - --context=dir:///atm/home
-      - --destination=atomist/${push.repo.name}:${push.after.sha}
+      - --destination=docker.pkg.github.com/${push.repo.owner}/${push.repo.name}/${push.repo.name}:${push.after.sha}
       - --dockerfile=Dockerfile
       - --cache=true
-      - --cache-repo=atomist/layer-cache
+      - --cache-repo=docker.pkg.github.com/${push.repo.owner}/${push.repo.name}/layer-cache
       - --force
       secrets:
         file_mounts:
