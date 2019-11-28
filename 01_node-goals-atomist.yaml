@@ -38,8 +38,8 @@ node_build:
         args:
         - >-
           echo "atm:phase=git config" &&
-          git config --global user.email 'bot@atomist.com' &&
-          git config --global user.name 'Atomist Bot' &&
+          git config user.email 'bot@atomist.com' &&
+          git config user.name 'Atomist Bot' &&
           echo "atm:phase=git tag" &&
           git tag -m '${push.after.message}' ${push.after.version} &&
           echo "atm:phase=git push" &&
