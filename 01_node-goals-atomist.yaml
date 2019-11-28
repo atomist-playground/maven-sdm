@@ -61,6 +61,7 @@ docker_build:
       - --dockerfile=Dockerfile
       - --cache=true
       - --cache-repo=atomist/layer-cache
+      - --force
       secrets:
         file_mounts:
         - mount_path: /kaniko/.docker/config.json
