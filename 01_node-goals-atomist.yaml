@@ -25,25 +25,24 @@ node_build:
   goals:
   - atomist/version-goal@a03a4cf
   - atomist/npm-goal/build@7f3d0e0
-  -
-    - atomist/npm-goal/publish@7f3d0e0:
-        parameters:
-          access: public
-    - containers:
-      - name: git tag
-        image: atomist/sdm-base:0.3.0
-        command:
-          - /bin/sh
-          - -c
-        args:
-        - >-
-          echo "atm:phase=git config" &&
-          git config user.email 'bot@atomist.com' &&
-          git config user.name 'Atomist Bot' &&
-          echo "atm:phase=git tag" &&
-          git tag -m '${push.after.message}' ${push.after.version} &&
-          echo "atm:phase=git push" &&
-          git push origin ${push.after.version}
+  - atomist/npm-goal/publish@7f3d0e0:
+      parameters:
+        access: public
+  - containers:
+    - name: git tag
+      image: atomist/sdm-base:0.3.0
+      command:
+        - /bin/sh
+        - -c
+      args:
+      - >-
+        echo "atm:phase=git config" &&
+        git config user.email 'bot@atomist.com' &&
+        git config user.name 'Atomist Bot' &&
+        echo "atm:phase=git tag" &&
+        git tag -m '${push.after.message}' ${push.after.version} &&
+        echo "atm:phase=git push" &&
+        git push origin ${push.after.version}
 
 docker_build:
   test:
