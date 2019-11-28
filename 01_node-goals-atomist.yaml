@@ -52,6 +52,6 @@ docker_build:
           value:
             provider:
               type: docker
-      input:
-      - version
-      - npm-compile
+    input:
+    - version
+    - npm-compile
