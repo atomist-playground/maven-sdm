@@ -30,10 +30,11 @@ node_build:
         access: public
   - containers:
     - name: git tag
-      image: ubuntu:latest
+      image: atomist/sdm-base:0.3.0
+      command:
+        - /bin/sh
+        - -c
       args:
-      - /bin/sh
-      - -c
       - >-
         echo "atm:phase=git config" &&
         git config --global user.email 'bot@atomist.com' &&
