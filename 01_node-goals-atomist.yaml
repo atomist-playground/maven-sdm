@@ -28,7 +28,17 @@ node_build:
   - atomist/npm-goal/publish@7f3d0e0:
       parameters:
         access: public
-  - tag
+  - containers:
+    - name: git tag
+      image: alpine
+      args:
+      - /bin/sh
+      - -c
+      - >-
+        git config --global user.email "bot@atomist.com" &&
+        git config --global user.name "Atomist Bot" &&
+        git tag ${push.after.version} &&
+        git push origin ${push.after.version}
 
 docker_build:
   test:
