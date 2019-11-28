@@ -37,7 +37,7 @@ node_build:
       - >-
         git config --global user.email "bot@atomist.com" &&
         git config --global user.name "Atomist Bot" &&
-        git tag ${push.after.version} &&
+        git tag -m '${push.after.message}' ${push.after.version} &&
         git push origin ${push.after.version}
 
 docker_build:
