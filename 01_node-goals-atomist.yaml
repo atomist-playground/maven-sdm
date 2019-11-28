@@ -37,9 +37,21 @@ docker_build:
   depends_on:
   - node_build
   goals:
-  - atomist/docker-goal/build-push@cfe8a07:
-      parameters:
-        registry: atomist
+  - containers:
+    - name: kaniko build
+      image: gcr.io/kaniko-project/executor
+      args:
+      - --context=dir:///atm/home
+      - --destination=atomist/${push.repo.name}:${push.after.sha}
+      - --dockerfile=Dockerfile
+      - --cache=true
+      - --cache-repo=atomist/layer-cache
+      secrets:
+        file_mounts:
+        - mount_path: /kaniko/.docker/config.json
+          value:
+            provider:
+              type: docker
       input:
       - version
-      - npm-test
+      - npm-compile
