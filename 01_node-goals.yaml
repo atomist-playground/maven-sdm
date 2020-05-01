@@ -1,25 +1,25 @@
-node_build:  
+node\Ubuild:  
   test: 
-  - has_file: package.json
+  - has\Ufile: package.json
      
   goals:
   - containers:
     - name: npm-version
-      image: ${env.version_goal_image}
+      image: ${env.version\Ugoal\Uimage}
     output:
     - classifier: version
       pattern:
-        glob_pattern:
+        glob\Upattern:
         - package.json
   - containers:
     - name: npm-test
       image: node:8-slim
       env:
-      - name: NODE_ENV
+      - name: NODE\UENV
         value: development
-      - name: BLUEBIRD_WARNINGS
+      - name: BLUEBIRD\UWARNINGS
         value: '0'
-      #- name: MONGODB_URI
+      #- name: MONGODB\UURI
       #  value: mongodb://mongo:27017/test
       args:
       - sh
@@ -28,12 +28,12 @@ node_build:
     - name: mongo
       image: mongo:3.6
       test:
-      - has_file_containing:
-          glob_pattern: package.json
+      - has\Ufile\Ucontaining:
+          glob\Upattern: package.json
           content: mongoose|connect-mongo
   input:
   - version
   output:
   - classifier: cache
     pattern:
-      directory: node_modules
+      directory: node\Umodules

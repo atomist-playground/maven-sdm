@@ -1,15 +1,15 @@
-mvn_build:
+mvn\Ubuild:
   test:
-  - has_file: pom.xml
+  - has\Ufile: pom.xml
 
   goals:
   - containers:
     - name: mvn-version
-      image: ${env.version_goal_image}
+      image: ${env.version\Ugoal\Uimage}
     output:
     - classifier: version
       pattern:
-        glob_pattern:
+        glob\Upattern:
         - pom.xml
   - containers:
     - name: mvn-test
@@ -17,12 +17,12 @@ mvn_build:
       args:
       - mvn
       - package
-      volume_mounts:
+      volume\Umounts:
       - name: repo
-        mount_path: /root/.m2
+        mount\Upath: /root/.m2
     volumes:
     - name: repo
-      host_path:
+      host\Upath:
         path: /data/.m2
     input:
     - version

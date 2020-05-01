@@ -12,7 +12,7 @@ configuration:
         registry: atomistplayground
         provider: atomist
   env:
-    version_goal_image: 'git://atomist/version-goal@a8c0ea2'
+    version\Ugoal\Uimage: 'git://atomist/version-goal@a8c0ea2'
 
 ---
 
@@ -20,7 +20,7 @@ immaterial:
 
   test:
   - not:
-      is_material_change:
+      is\Umaterial\Uchange:
         files:
         - pom.xml
         - package.json
