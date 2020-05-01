@@ -11,7 +11,7 @@ configuration:
 immaterial:
   test:
   - not:
-      is_material_change:
+      is\Umaterial\Uchange:
         files:
         - package.json
         - Dockerfile
@@ -19,9 +19,9 @@ immaterial:
         - ts
   goals: lock
 
-node_build:
+node\Ubuild:
   test:
-  - has_file: package.json
+  - has\Ufile: package.json
   goals:
   - atomist/version-goal@a03a4cf
   - atomist/npm-goal/build@7f3d0e0
@@ -44,12 +44,12 @@ node_build:
         echo "atm:phase=git push" &&
         git push origin ${push.after.version}
 
-docker_build:
+docker\Ubuild:
   test:
-  - has_file: package.json
-  - has_file: Dockerfile
-  depends_on:
-  - node_build
+  - has\Ufile: package.json
+  - has\Ufile: Dockerfile
+  depends\Uon:
+  - node\Ubuild
   goals:
   - containers:
     - name: kaniko build
@@ -62,8 +62,8 @@ docker_build:
       - --cache-repo=docker.pkg.github.com/${push.repo.owner}/${push.repo.name}/layer-cache
       - --force
       secrets:
-        file_mounts:
-        - mount_path: /kaniko/.docker/config.json
+        file\Umounts:
+        - mount\Upath: /kaniko/.docker/config.json
           value:
             provider:
               type: docker

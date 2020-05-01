@@ -1,5 +1,5 @@
 deploy:
-  test: has_image
+  test: has\Uimage
   goals:
   - deploy:
       environment: staging

@@ -1,11 +1,11 @@
-docker_build:    
+docker\Ubuild:    
   test: 
-  - has_file: Dockerfile
-  - is_branch: ^master$
+  - has\Ufile: Dockerfile
+  - is\Ubranch: ^master$
     
-  depends_on: 
-  - mvn_build
-  - node_build
+  depends\Uon: 
+  - mvn\Ubuild
+  - node\Ubuild
          
   goals:   
 #  - containers:   
@@ -17,12 +17,12 @@ docker_build:
 #      - --dockerfile=Dockerfile
 #      - --cache=true
 #      - --cache-repo=atomist/layer-cache
-#      volume_mounts:
+#      volume\Umounts:
 #      - name: creds
-#        mount_path: /kaniko/.docker/config.json
+#        mount\Upath: /kaniko/.docker/config.json
 #    volumes:
 #    - name: creds
-#      host_path:
+#      host\Upath:
 #        path: ${home}/.docker/config.json
   - containers:
     - name: docker-build
@@ -35,10 +35,10 @@ docker_build:
         docker build . -f Dockerfile -t atomist/${push.repo.name}:${push.after.version} &&
         echo "atm:phase=docker push" &&
         docker push atomist/${push.repo.name}:${push.after.version} &&
-        echo '{ "SdmGoal": { "push": { "after": { "images" :[{ "imageName": "atomist/${push.repo.name}:${push.after.version}" }] } } } }' > $ATOMIST_RESULT
-      volume_mounts:
+        echo '{ "SdmGoal": { "push": { "after": { "images" :[{ "imageName": "atomist/${push.repo.name}:${push.after.version}" }] } } } }' > $ATOMIST\URESULT
+      volume\Umounts:
       - name: sock
-        mount_path: /var/run/docker.sock
+        mount\Upath: /var/run/docker.sock
       secrets:
         #env:
         #- name: TEST
@@ -48,8 +48,8 @@ docker_build:
         #      t2NWSvX8ZKDSPb0OmUxSYl0JMxw/VtBsSl6fum3AL5lf/sYRZHUtIly9G6ptdsrKg9DKASwd1hWqxQvNgEVroWCaoZ8gbfDyMVlfVwtpxPod
         #      7ur3HfGOY7apa6UM2v88nfmzZx1jSDiGzRgUz9FFELozZ+Omru02BfmS1ymqr+saf6DegKCSZXnmzfneA+XFrpgLOpmQF0XSbB9ThLTky3hK
         #      AC6sy3rBCjYjJhnjcQ==
-        file_mounts:
-        - mount_path: /root/.docker/config.json
+        file\Umounts:
+        - mount\Upath: /root/.docker/config.json
           value:
             provider:
               type: docker
@@ -59,7 +59,7 @@ docker_build:
     - cache
     volumes:
     - name: sock
-      host_path:
+      host\Upath:
         path: /var/run/docker.sock
     approval: true
     retry: true
